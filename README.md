@@ -1,6 +1,6 @@
 # Closest Pairs :triangular_ruler:
 
-Find the closest pair in a dataset.
+Find the closest pairs in an array.
 
 ### Getting Started
 
@@ -20,6 +20,7 @@ pip install .
 ```python
 import closest_pairs
 
+# X is an n x m numpy array
 pairs, distances = closest_pairs.solve(X, n=1)
 
 ```
