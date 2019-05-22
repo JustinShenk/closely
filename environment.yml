@@ -1,4 +1,4 @@
-name: closest_pairs
+name: closely
 channels:
   - conda-forge
 dependencies:

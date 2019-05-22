@@ -1,5 +1,5 @@
-# Closest Pairs :triangular_ruler:
- [![PyPI version](https://badge.fury.io/py/closest-pairs.svg)](https://badge.fury.io/py/closest-pairs) [![Build Status](https://travis-ci.org/justinshenk/closest-pairs.svg?branch=master)](https://travis-ci.org/justinshenk/closest-pairs)
+# Closely :triangular_ruler:
+ [![PyPI version](https://badge.fury.io/py/closely.svg)](https://badge.fury.io/py/closely) [![Build Status](https://travis-ci.org/justinshenk/closely.svg?branch=master)](https://travis-ci.org/justinshenk/closely)
 
 
 Find the closest pairs in an array.
@@ -7,23 +7,23 @@ Find the closest pairs in an array.
 ### Getting Started
 
 ```bash
-pip install closest_pairs
+pip install closely
 ```
 
 or install from source:
 ```bash
-git clone https://github.com/justinshenk/closest-pairs
-cd closest_pairs
+git clone https://github.com/justinshenk/closely
+cd closely
 pip install .
 ```
 
 ### How to use
 
 ```python
-import closest_pairs
+import closely
 
 # X is an n x m numpy array
-pairs, distances = closest_pairs.solve(X, n=1)
+pairs, distances = closely.solve(X, n=1)
 
 ```
 
@@ -32,13 +32,13 @@ You can specify how many pairs you want to identify with `n`.
 
 ### Example
 ```python
-import closest_pairs
+import closely
 import numpy as np
 import matplotlib.pyplot as plt
 
 # Create dataset
 X = np.random.random((100,2))
-pairs, distance = closest_pairs.solve(X, n=1)
+pairs, distance = closely.solve(X, n=1)
 
 # Plot points
 z, y = np.split(X, 2, axis=1)
@@ -69,7 +69,7 @@ Output:
 
 
 ### Caveats
-`closest_pairs` will reduce the dimensionality with PCA of your data to two-dimensions for faster processing.
+`closely` will reduce the dimensionality with PCA of your data to two-dimensions for faster processing.
 
 It also removes the first point in a pair if `n`>1. In rare cases this leads to false negatives if the data is highly overlapping.
 

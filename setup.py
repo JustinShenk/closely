@@ -30,10 +30,10 @@ with open(os.path.join(this_dir, "README.md"), encoding="utf-8") as f:
     long_description = f.read()
 
 setup(
-    name="closest_pairs",
-    version=find_version("closest_pairs", "__init__.py"),
-    description="closest_pairs finds the closest pairs of points in a dataset",
-    url="https://github.com/justinshenk/closest_pairs",
+    name="closely",
+    version=find_version("closely", "__init__.py"),
+    description="closely finds the closest pairs of points in a dataset",
+    url="https://github.com/justinshenk/closely",
     author="Justin Shenk",
     author_email="shenkjustin@gmail.com",
     long_description=long_description,
