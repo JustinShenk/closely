@@ -30,7 +30,7 @@ install:
  - pip install -e .
 
 script:
- - py.test closely
+ - pytest
 
 deploy:
   provider: pypi
