@@ -1,5 +1,5 @@
 # Closest Pairs :triangular_ruler:
-[![PyPI version](https://badge.fury.io/py/closest_pairs.svg)](https://badge.fury.io/py/closest_pairs) [![Build Status](https://travis-ci.org/justinshenk/closest_pairs.svg?branch=master)](https://travis-ci.org/justinshenk/closest_pairs)
+ [![PyPI version](https://badge.fury.io/py/closest-pairs.svg)](https://badge.fury.io/py/closest-pairs) [![Build Status](https://travis-ci.org/justinshenk/closest-pairs.svg?branch=master)](https://travis-ci.org/justinshenk/closest-pairs)
 
 
 Find the closest pairs in an array.
