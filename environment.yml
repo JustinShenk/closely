@@ -1,2 +1,7 @@
-numpy
-scikit-learn
+name: closest_pairs
+channels:
+  - conda-forge
+dependencies:
+  - scikit-learn
+  - numpy
+
