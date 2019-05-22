@@ -65,12 +65,13 @@ array([[[ 7],
 Output:
 ![example_plot](example_plot.png)
 
+
 ### Caveats
 `closest_pairs` will reduce the dimensionality with PCA of your data to two-dimensions for faster processing.
 
 It also removes the first point in a pair if `n`>1. In rare cases this leads to false negatives if the data is highly overlapping.
 
 
-### Credit
+### Credit and Explanation
 
-Python code modified from [Andriy Lazorenko](https://medium.com/@andriylazorenko/closest-pair-of-points-in-python-79e2409fc0b2), packaged by Justin Shenk.
+Python code modified from [Andriy Lazorenko](https://medium.com/@andriylazorenko/closest-pair-of-points-in-python-79e2409fc0b2), packaged and made useful for >2 features by Justin Shenk.
