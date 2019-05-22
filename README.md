@@ -1,4 +1,4 @@
-# Closest Pairs
+# Closest Pairs :triangular_ruler:
 
 Find the closest pair in a dataset.
 
