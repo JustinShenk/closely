@@ -31,7 +31,7 @@ def solution(array: np.ndarray, n=1):
         x = np.delete(x, p1_arg)
         y = np.delete(y, p1_arg)
 
-    return np.unique(np.array(pairs),axis=1), np.array(mis)
+    return np.unique(np.array(pairs),axis=1).squeeze(), np.array(mis)
 
 
 def reduce_dims(array: np.ndarray):
