@@ -8,14 +8,22 @@ def solution(array: np.ndarray, n=1):
     """Solve the closest pairs problem.
     Note: Code modified from Andriy Lazorenko's Medium post.
     """
+    pairs = []
+    mis = []
+
+    u, c = np.unique(array, return_counts=True, axis=0)
+    duplicates = u[c > 1]
+    for d in duplicates:
+        pair = sorted(np.argwhere(array[:,0] == d[0]).squeeze())
+        pairs.append(pair)
+        mis.append(0.)
+        array = np.delete(array, pair, axis=0)
+
     if array.shape[1] > 2:
         array = reduce_dims(array)
 
-    pairs = []
-    indices = []
-    mis = []
-
     x, y = np.split(array, 2, axis=1)
+    x, y = x.squeeze(), y.squeeze()
     for i in range(n):
         a = list(zip(x, y))  # This produces list of tuples
         ax = sorted(a, key=lambda x: x[0])  # Presorting x-wise
@@ -26,21 +34,35 @@ def solution(array: np.ndarray, n=1):
         p1_arg = np.where(array[:, 0] == p1[0])[0]
         p2_arg = np.where(array[:, 0] == p2[0])[0]
 
-        indices.append(p1_arg)
+        # Process duplicates if any
+        if len(p1_arg) > 1 and len(p2_arg) > 1:
+            duplicates = np.union1d(p1_arg, p2_arg)
+            # Remove duplicates except one
+            for idx in duplicates[1:]:
+                x = np.delete(x, idx, axis=0)
+                y = np.delete(y, idx, axis=0)
+            pair = sorted(duplicates)
+            pairs.append(pair)
+            mis.append(mi)
+        else:
+            # Remove point from array
+            p1_argX = np.where(x == p1[0])[0]
+            x = np.delete(x, p1_argX[0], axis=0)
+            y = np.delete(y, p1_argX[0], axis=0)
 
-        # Remove point from array
-        p1_argX = np.where(x == p1[0])[0]
-        x = np.delete(x, p1_argX[0], axis=0)
-        y = np.delete(y, p1_argX[0], axis=0)
+            pair = sorted([p1_arg[0], p2_arg[0]])
+            pairs.append(pair)
+            mis.append(mi)
 
-        pair = sorted([p1_arg[0], p2_arg[0]])
-        pairs.append(pair)
-        mis.append(mi)
+    pairs, mis = np.array(pairs), np.array(mis)
 
-    pairs = np.array(pairs)
-    pairs, indices = np.unique(pairs, axis=0, return_index=True)
+    # # Remove duplicates
+    # pairs, indices = np.unique(pairs, axis=0, return_index=True)
+    # mis = np.array(mis)[indices]
 
-    return pairs, np.array(mis)[indices]
+    # Sort pairs by distance
+    idx = np.argsort(mis)
+    return pairs[idx], mis[idx]
 
 
 def reduce_dims(array: np.ndarray):
