@@ -12,6 +12,7 @@ def solution(array: np.ndarray, n=1):
         array = reduce_dims(array)
 
     pairs = []
+    indices = []
     mis = []
 
     x, y = np.split(array, 2, axis=1)
@@ -19,19 +20,27 @@ def solution(array: np.ndarray, n=1):
         a = list(zip(x, y))  # This produces list of tuples
         ax = sorted(a, key=lambda x: x[0])  # Presorting x-wise
         ay = sorted(a, key=lambda x: x[1])  # Presorting y-wise
+
         p1, p2, mi = closest_pair(ax, ay)  # Recursive D&C function
 
         p1_arg = np.where(array[:, 0] == p1[0])[0]
         p2_arg = np.where(array[:, 0] == p2[0])[0]
 
-        pairs.append((p1_arg, p2_arg))
-        mis.append(mi)
+        indices.append(p1_arg)
 
         # Remove point from array
-        x = np.delete(x, p1_arg)
-        y = np.delete(y, p1_arg)
+        p1_argX = np.where(x == p1[0])[0]
+        x = np.delete(x, p1_argX[0], axis=0)
+        y = np.delete(y, p1_argX[0], axis=0)
 
-    return np.unique(np.array(pairs).squeeze(),axis=1), np.array(mis)
+        pair = sorted([p1_arg[0], p2_arg[0]])
+        pairs.append(pair)
+        mis.append(mi)
+
+    pairs = np.array(pairs)
+    pairs, indices = np.unique(pairs, axis=0, return_index=True)
+
+    return pairs, np.array(mis)[indices]
 
 
 def reduce_dims(array: np.ndarray):
@@ -51,6 +60,7 @@ def closest_pair(ax: np.ndarray, ay: np.ndarray):
     mid = ln_ax // 2  # Division without remainder, need int
     Qx = ax[:mid]  # Two-part split
     Rx = ax[mid:]
+
     # Determine midpoint on x-axis
     midpoint = ax[mid][0]
     Qy = list()
@@ -60,9 +70,11 @@ def closest_pair(ax: np.ndarray, ay: np.ndarray):
             Qy.append(x)
         else:
             Ry.append(x)
+
     # Call recursively both arrays after split
     (p1, q1, mi1) = closest_pair(Qx, Qy)
     (p2, q2, mi2) = closest_pair(Rx, Ry)
+
     # Determine smaller distance between points of 2 arrays
     if mi1 <= mi2:
         d = mi1
