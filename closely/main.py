@@ -6,7 +6,7 @@ from sklearn.decomposition import PCA
 
 def solution(array: np.ndarray, n=1):
     """Solve the closest pairs problem.
-    Note: Code borrowed from Andriy Lazorenko's Medium post.
+    Note: Code modified from Andriy Lazorenko's Medium post.
     """
     if array.shape[1] > 2:
         array = reduce_dims(array)
