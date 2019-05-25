@@ -50,7 +50,9 @@ for i, txt in enumerate(X):
     if i in pairs: 
         ax.annotate(i, (z[i], y[i]), color='red') 
     else: 
-        ax.annotate(i, (z[i], y[i])) 
+        ax.annotate(i, (z[i], y[i]))
+
+plt.show() 
 ```
 
 Check pairs:
