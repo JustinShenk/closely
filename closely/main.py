@@ -1,155 +1,32 @@
 import math
 
 import numpy as np
-from sklearn.decomposition import PCA
+from scipy.spatial.distance import pdist, squareform
 
 
-def solution(array: np.ndarray, n=1):
+def solution(array: np.ndarray, n=1, metric="euclidean", max_dist=None, quantile=0.0037):
     """Solve the closest pairs problem.
-    Note: Code modified from Andriy Lazorenko's Medium post.
+    Args:
+        array (np.ndarray): N x M
+
     """
     pairs = []
-    mis = []
+    distances = []
 
-    u, c = np.unique(array, return_counts=True, axis=0)
-    duplicates = u[c > 1]
-    for d in duplicates:
-        pair = sorted(np.argwhere(array[:,0] == d[0]).squeeze())
-        pairs.append(pair)
-        mis.append(0.)
-        array = np.delete(array, pair, axis=0)
+    distance_matrix = pdist(array, metric=metric)
+    if not max_dist:
+        max_dist = np.quantile(distance_matrix, quantile)
 
-    if array.shape[1] > 2:
-        array = reduce_dims(array)
+    # Convert to square form
+    distance_matrix = squareform(distance_matrix)
 
-    x, y = np.split(array, 2, axis=1)
-    x, y = x.squeeze(), y.squeeze()
-    for i in range(n):
-        a = list(zip(x, y))  # This produces list of tuples
-        ax = sorted(a, key=lambda x: x[0])  # Presorting x-wise
-        ay = sorted(a, key=lambda x: x[1])  # Presorting y-wise
+    for idx, img in enumerate(distance_matrix):
+        for idx2, dist in enumerate(img):
+            if idx != idx2 and dist <= (max_dist or np.inf):
+                print(idx, idx2, dist)
+                pair = sorted([idx, idx2])
+                pairs.append(pair)
+                distances.append(dist)
 
-        p1, p2, mi = closest_pair(ax, ay)  # Recursive D&C function
-
-        p1_arg = np.where(array[:, 0] == p1[0])[0]
-        p2_arg = np.where(array[:, 0] == p2[0])[0]
-
-        # Process duplicates if any
-        if len(p1_arg) > 1 and len(p2_arg) > 1:
-            duplicates = np.union1d(p1_arg, p2_arg)
-            # Remove duplicates except one
-            for idx in duplicates[1:]:
-                x = np.delete(x, idx, axis=0)
-                y = np.delete(y, idx, axis=0)
-            pair = sorted(duplicates)
-            pairs.append(pair)
-            mis.append(mi)
-        else:
-            # Remove point from array
-            p1_argX = np.where(x == p1[0])[0]
-            x = np.delete(x, p1_argX[0], axis=0)
-            y = np.delete(y, p1_argX[0], axis=0)
-
-            pair = sorted([p1_arg[0], p2_arg[0]])
-            pairs.append(pair)
-            mis.append(mi)
-
-    pairs, mis = np.array(pairs), np.array(mis)
-
-    # # Remove duplicates
-    # pairs, indices = np.unique(pairs, axis=0, return_index=True)
-    # mis = np.array(mis)[indices]
-
-    # Sort pairs by distance
-    idx = np.argsort(mis)
-    return pairs[idx], mis[idx]
-
-
-def reduce_dims(array: np.ndarray):
-    pca = PCA(n_components=2)
-    array_2d = pca.fit(array).transform(array)
-
-    return array_2d
-
-
-def closest_pair(ax: np.ndarray, ay: np.ndarray):
-    """Find the closest pair.
-    Note: Code borrowed from Andriy Lazorenko.
-    """
-    ln_ax = len(ax)  # It's quicker to assign variable
-    if ln_ax <= 3:
-        return brute(ax)  # A call to bruteforce comparison
-    mid = ln_ax // 2  # Division without remainder, need int
-    Qx = ax[:mid]  # Two-part split
-    Rx = ax[mid:]
-
-    # Determine midpoint on x-axis
-    midpoint = ax[mid][0]
-    Qy = list()
-    Ry = list()
-    for x in ay:  # split ay into 2 arrays using midpoint
-        if x[0] <= midpoint:
-            Qy.append(x)
-        else:
-            Ry.append(x)
-
-    # Call recursively both arrays after split
-    (p1, q1, mi1) = closest_pair(Qx, Qy)
-    (p2, q2, mi2) = closest_pair(Rx, Ry)
-
-    # Determine smaller distance between points of 2 arrays
-    if mi1 <= mi2:
-        d = mi1
-        mn = (p1, q1)
-    else:
-        d = mi2
-        mn = (p2, q2)
-    # Call function to account for points on the boundary
-    (p3, q3, mi3) = closest_split_pair(ax, ay, d, mn)
-    # Determine smallest distance for the array
-    if d <= mi3:
-        return mn[0], mn[1], d
-    else:
-        return p3, q3, mi3
-
-
-def brute(ax: np.ndarray):
-    mi = dist(ax[0], ax[1])
-    p1 = ax[0]
-    p2 = ax[1]
-    ln_ax = len(ax)
-    if ln_ax == 2:
-        return p1, p2, mi
-    for i in range(ln_ax - 1):
-        for j in range(i + 1, ln_ax):
-            if i != 0 and j != 1:
-                d = dist(ax[i], ax[j])
-                if d < mi:  # Update min_dist and points
-                    mi = d
-                    p1, p2 = ax[i], ax[j]
-    return p1, p2, mi
-
-
-def dist(p1: np.ndarray, p2: np.ndarray):
-    return math.sqrt((p1[0] - p2[0]) ** 2 + (p1[1] - p2[1]) ** 2)
-
-
-def closest_split_pair(p_x: list, p_y: np.ndarray, delta: float, best_pair: tuple):
-    """Find the closest_split_pair.
-    Note: Code modified from Andriy Lazorenko.
-    """
-    ln_x = len(p_x)  # store length - quicker
-    mx_x = p_x[ln_x // 2][0]  # select midpoint on x-sorted array
-    # Create a subarray of points not further than delta from
-    # midpoint on x-sorted array
-    s_y = [x for x in p_y if mx_x - delta <= x[0] <= mx_x + delta]
-    best = delta  # assign best value to delta
-    ln_y = len(s_y)  # store length of subarray for quickness
-    for i in range(ln_y - 1):
-        for j in range(i + 1, min(i + 7, ln_y)):
-            p, q = s_y[i], s_y[j]
-            dst = dist(p, q)
-            if dst < best:
-                best_pair = p, q
-                best = dst
-    return best_pair[0], best_pair[1], best
+    pairs, indices = np.unique(pairs, axis=0, return_index=True)
+    return pairs, np.array(distances)[indices]
