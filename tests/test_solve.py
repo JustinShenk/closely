@@ -1,4 +1,5 @@
 import matplotlib
+
 matplotlib.use("Agg")
 import numpy as np
 import pytest
@@ -14,11 +15,13 @@ def test_solution(n_points, n_dim):
     assert len(pairs) >= n_points
     assert isinstance(distances, np.ndarray)
 
+
 def test_quantile():
     X = np.random.random((1000, 8))
     pairs, distances = closely.solve(X, quantile=0.01)
     assert isinstance(pairs, list)
     assert isinstance(distances, np.ndarray)
+
 
 @pytest.mark.parametrize("ordered", [True, False])
 def test_show_linkage(ordered):

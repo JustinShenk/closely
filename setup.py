@@ -22,9 +22,11 @@ def read(*parts):
     with codecs.open(os.path.join(HERE, *parts), "rb", "utf-8") as f:
         return f.read()
 
+
 META_PATH = os.path.join("src", NAME, "__init__.py")
 META_FILE = read(META_PATH)
 KEYWORDS = ["mathematics", "geometry", "closest pairs", "similar data", "duplicates"]
+
 
 def find_meta(meta):
     """
@@ -45,16 +47,16 @@ PROJECT_URLS = {
     "Source Code": "https://github.com/justinshenk/closely",
 }
 CLASSIFIERS = [
-        "Intended Audience :: Developers",
-        "License :: OSI Approved :: MIT License",
-        "Intended Audience :: Education",
-        "Intended Audience :: Science/Research",
-        "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.6",
-        "Topic :: Scientific/Engineering :: Mathematics",
-        "Topic :: Software Development :: Libraries :: Python Modules",
-        "Topic :: Software Development :: Libraries",
-    ]
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Intended Audience :: Education",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.6",
+    "Topic :: Scientific/Engineering :: Mathematics",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Software Development :: Libraries",
+]
 
 PYTHON_REQUIRES = ">= 3.6"
 INSTALL_REQUIRES = ["numpy", "scipy"]
@@ -64,7 +66,10 @@ EXTRAS_REQUIRE = {
     "tests": ["coverage", "pytest"],
 }
 EXTRAS_REQUIRE["dev"] = (
-    EXTRAS_REQUIRE["tests"] + EXTRAS_REQUIRE["all"] + EXTRAS_REQUIRE["docs"] + ["wheel", "pre-commit"]
+    EXTRAS_REQUIRE["tests"]
+    + EXTRAS_REQUIRE["all"]
+    + EXTRAS_REQUIRE["docs"]
+    + ["wheel", "pre-commit"]
 )
 
 VERSION = find_meta("version")
@@ -76,9 +81,7 @@ if os.path.exists(os.path.join(HERE, "README.rst")):
         + "Release Information\n"
         + "===================\n\n"
         + re.search(
-            r"(\d+.\d.\d \(.*?\)\n.*?)\n\n\n----\n\n\n",
-            read("CHANGELOG.rst"),
-            re.S,
+            r"(\d+.\d.\d \(.*?\)\n.*?)\n\n\n----\n\n\n", read("CHANGELOG.rst"), re.S
         ).group(1)
         + "\n\n`Full changelog "
         + "<{url}en/stable/changelog.html>`_.\n\n".format(url=URL)

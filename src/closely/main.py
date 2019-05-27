@@ -4,7 +4,12 @@ import numpy as np
 from scipy.spatial.distance import cdist
 
 
-def solution(array: np.ndarray, n:Optional[int]=None, metric="euclidean", quantile:Optional[float]=None):
+def solution(
+    array: np.ndarray,
+    n: Optional[int] = None,
+    metric="euclidean",
+    quantile: Optional[float] = None,
+):
     """Solve the closest pairs problem.
     Args:
         array (np.ndarray): N x M
@@ -24,7 +29,7 @@ def solution(array: np.ndarray, n:Optional[int]=None, metric="euclidean", quanti
     return pairs, distances
 
 
-def closest_k_pairs(array:np.ndarray, kth:int=3, metric:str='euclidean'):
+def closest_k_pairs(array: np.ndarray, kth: int = 3, metric: str = "euclidean"):
     """Get closest k-pairs in a matrix.
     Args:
         array (np.ndarray): n instances x m features matrix
@@ -42,14 +47,16 @@ def closest_k_pairs(array:np.ndarray, kth:int=3, metric:str='euclidean'):
     dist_mat[np.tril_indices(dist_mat.shape[0], -1)] = np.inf
     np.fill_diagonal(dist_mat, np.inf)
 
-    coord1, coord2 = np.unravel_index(np.argpartition(dist_mat, kth=kth, axis=None), dist_mat.shape)
+    coord1, coord2 = np.unravel_index(
+        np.argpartition(dist_mat, kth=kth, axis=None), dist_mat.shape
+    )
 
     pairs = list(zip(coord1[:kth], coord2[:kth]))
     distances = dist_mat[coord1[:kth], coord2[:kth]]
     return pairs, distances
 
 
-def get_index_of_quantile(dist_mat:np.ndarray, quantile:float):
+def get_index_of_quantile(dist_mat: np.ndarray, quantile: float):
     """Returns index of `quantile` in `dist_mat`."""
     flat_dist_mat = dist_mat.flatten()
     flat_dist_mat.sort()
@@ -60,7 +67,7 @@ def get_index_of_quantile(dist_mat:np.ndarray, quantile:float):
 
 
 def seriation(Z, N, cur_index):
-    '''
+    """
         input:
             - Z is a hierarchical tree (dendrogram)
             - N is the number of points given to the clustering process
@@ -69,17 +76,17 @@ def seriation(Z, N, cur_index):
             - order implied by the hierarchical tree Z
 
         seriation computes the order implied by a hierarchical tree (dendrogram)
-    '''
+    """
     if cur_index < N:
         return [cur_index]
     else:
         left = int(Z[cur_index - N, 0])
         right = int(Z[cur_index - N, 1])
-        return (seriation(Z, N, left) + seriation(Z, N, right))
+        return seriation(Z, N, left) + seriation(Z, N, right)
 
 
 def compute_serial_matrix(dist_mat, method="ward"):
-    '''
+    """
         input:
             - dist_mat is a distance matrix
             - method = ["ward","single","average","complete"]
@@ -95,11 +102,13 @@ def compute_serial_matrix(dist_mat, method="ward"):
         compute_serial_matrix transforms a distance matrix into
         a sorted distance matrix according to the order implied
         by the hierarchical tree (dendrogram)
-    '''
+    """
     try:
         from fastcluster import linkage
     except ImportError:
-        raise("fastcluster is not installed. Install it with 'pip install fastcluster'")
+        raise (
+            "fastcluster is not installed. Install it with 'pip install fastcluster'"
+        )
     N = len(dist_mat)
     res_linkage = linkage(dist_mat, method=method, preserve_input=True)
     res_order = seriation(res_linkage, N, N + N - 2)
@@ -110,8 +119,9 @@ def compute_serial_matrix(dist_mat, method="ward"):
     return seriated_dist, res_order, res_linkage
 
 
-
-def distance_matrix(array:np.ndarray, metric:str='euclidean', ordered:bool=False):
+def distance_matrix(
+    array: np.ndarray, metric: str = "euclidean", ordered: bool = False
+):
     dist_mat = cdist(array, array, metric=metric)
 
     if ordered:
@@ -120,7 +130,7 @@ def distance_matrix(array:np.ndarray, metric:str='euclidean', ordered:bool=False
     return dist_mat
 
 
-def order_matrix(dist_mat:np.ndarray, method:str="ward"):
+def order_matrix(dist_mat: np.ndarray, method: str = "ward"):
     """Order the matrix by hierarchical clustering.
     Args:
         dist_mat
@@ -134,7 +144,7 @@ def order_matrix(dist_mat:np.ndarray, method:str="ward"):
     return ordered_dist_mat, res_order, res_linkage
 
 
-def show_linkage(dist_mat:np.ndarray):
+def show_linkage(dist_mat: np.ndarray):
     """Plot and show linkage of distance matrix.
     Args:
         dist_mat (np.ndarray): ordered distance matrix
@@ -142,7 +152,7 @@ def show_linkage(dist_mat:np.ndarray):
     try:
         import matplotlib.pyplot as plt
     except ImportError:
-        raise("Error: Install matplotlib with 'pip install matplotlib'")
+        raise ("Error: Install matplotlib with 'pip install matplotlib'")
     N = len(dist_mat)
 
     if np.inf in dist_mat:
@@ -150,8 +160,6 @@ def show_linkage(dist_mat:np.ndarray):
         ordered_dist_mat = np.minimum(dist_mat, dist_mat.transpose())
 
     plt.pcolormesh(dist_mat)
-    plt.xlim([0,N])
-    plt.ylim([0,N])
+    plt.xlim([0, N])
+    plt.ylim([0, N])
     plt.show()
-
-
