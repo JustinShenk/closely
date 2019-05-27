@@ -29,7 +29,7 @@ pairs, distances = closely.solve(X, n=1)
 ```
 
 You can specify how many pairs you want to identify with `n`.
- 
+
 
 ### Example
 ```python
