@@ -4,7 +4,7 @@
 
 Find the closest pairs in an array. 
 
-Closely uses principal component analysis (PCA) to reduce the dimensions to 2 and a divide and conquer algorithm to find the closest pair of points.
+Closely compares distances of arrays/embeddings and sorts them.
 
 ### Getting Started
 
@@ -13,6 +13,7 @@ pip install closely
 ```
 
 or install from source:
+
 ```bash
 git clone https://github.com/justinshenk/closely
 cd closely
@@ -67,13 +68,6 @@ array([[ 7, 16],
 Output:
 ![example_plot](example_plot.png)
 
-
-### Caveats
-If your data has more than 3 features, `closely` will reduce the dimensionality by projecting it onto two directions that explain most of the variance. This speeds up processing, but is not 100% precise. In other words, if your data has four columns (eg, x, y, z, a), it will apply divide-and-conquer on the new projection bases P1 and P2.
-
-It also removes the first point in a pair if `n`>1. In rare cases this leads to false negatives if the data is highly overlapping.
-
-
 ### Credit and Explanation
 
-Python code modified from [Andriy Lazorenko](https://medium.com/@andriylazorenko/closest-pair-of-points-in-python-79e2409fc0b2), packaged and made useful for >2 features by Justin Shenk.
+Python code for ordering distance matrices modified from [Andriy Lazorenko](https://medium.com/@andriylazorenko/closest-pair-of-points-in-python-79e2409fc0b2), packaged and made useful for >2 features by Justin Shenk.
