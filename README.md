@@ -40,7 +40,7 @@ import matplotlib.pyplot as plt
 
 # Create dataset
 X = np.random.random((100,2))
-pairs, distance = closely.solve(X, n=1)
+pairs, distances = closely.solve(X, n=1)
 
 # Plot points
 z, y = np.split(X, 2, axis=1)
@@ -56,7 +56,7 @@ for i, txt in enumerate(X):
 plt.show() 
 ```
 
-Check pairs:
+Check `pairs`:
 ```ipython
 In [10]: pairs                                                                                                                                
 Out[10]: 
