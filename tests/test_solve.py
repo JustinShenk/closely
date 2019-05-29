@@ -11,7 +11,7 @@ import closely
 def test_solution(n_points, n_dim):
     X = np.random.random((1000, n_dim))
     pairs, distances = closely.solve(X, n=n_points)
-    assert isinstance(pairs, list)
+    assert isinstance(pairs, np.ndarray)
     assert len(pairs) >= n_points
     assert isinstance(distances, np.ndarray)
 
@@ -19,7 +19,7 @@ def test_solution(n_points, n_dim):
 def test_quantile():
     X = np.random.random((1000, 8))
     pairs, distances = closely.solve(X, quantile=0.01)
-    assert isinstance(pairs, list)
+    assert isinstance(pairs, np.ndarray)
     assert isinstance(distances, np.ndarray)
 
 
