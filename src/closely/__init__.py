@@ -16,3 +16,11 @@ __email__ = "shenkjustin@gmail.com"
 
 __license__ = "MIT"
 __copyright__ = "Copyright (c) 2019 " + __author__
+
+__all__ = [
+    "solve",
+    "closest_k_pairs",
+    "get_index_of_quantile",
+    "show_linkage",
+    "distance_matrix",
+]
