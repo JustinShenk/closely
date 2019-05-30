@@ -1,10 +1,10 @@
 import matplotlib
-
-matplotlib.use("Agg")
 import numpy as np
 import pytest
 
 import closely
+
+matplotlib.use("Agg")
 
 
 @pytest.mark.parametrize("n_points,n_dim", [(2, 2), (2, 3), (3, 2), (3, 3)])
