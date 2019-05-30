@@ -29,7 +29,7 @@ def solution(
     return pairs, distances
 
 
-def closest_k_pairs(array: np.ndarray, kth:int, metric: str = "euclidean"):
+def closest_k_pairs(array: np.ndarray, kth: int, metric: str = "euclidean"):
     """Get closest k-pairs in a matrix.
     Args:
         array (np.ndarray): n instances x m features matrix
