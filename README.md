@@ -1,5 +1,6 @@
 # Closely :triangular_ruler:
- [![PyPI version](https://badge.fury.io/py/closely.svg)](https://badge.fury.io/py/closely) [![Build Status](https://travis-ci.com/justinshenk/closely.svg?branch=master)](https://travis-ci.com/justinshenk/closely)
+ [![PyPI version](https://badge.fury.io/py/closely.svg)](https://badge.fury.io/py/closely) [![Build Status](https://travis-ci.com/justinshenk/closely.svg?branch=master)](https://travis-ci.com/justinshenk/closely) [![DOI](https://zenodo.org/badge/187990744.svg)](https://zenodo.org/badge/latestdoi/187990744)
+
 
 
 Find the closest pairs in an array. 
