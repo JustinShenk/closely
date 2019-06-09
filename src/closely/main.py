@@ -34,7 +34,7 @@ def closest_k_pairs(array: np.ndarray, kth: int, metric: str = "euclidean"):
     Args:
         array (np.ndarray): n instances x m features matrix
         kth (int): k lowest pairs
-        metric (str): distance metric
+        metric (str): distance metric (eg, euclidean, cosine)
     Returns:
         pairs (np.ndarray): coordinates of nearest pairs, ordered (eg, [[0,2],[3,5],...]
         distances (np.ndarray): 1-d array of distances for each pair, sorted
@@ -77,7 +77,8 @@ def get_index_of_quantile(dist_mat: np.ndarray, quantile: float):
 
 
 def seriation(Z, N, cur_index):
-    """Order a distance matrix with a hierarchical clustering dendrogram
+    """Order a distance matrix with a hierarchical clustering dendrogram.
+
     Args:
         Z (np.ndarray): hierarchical tree (dendrogram)
         N (int): number of points given to the clustering process
