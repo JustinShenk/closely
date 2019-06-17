@@ -34,7 +34,7 @@ You can specify how many pairs you want to identify with `n`.
 
 #### Distance Metric
 
-The distance metric can be changed from the default `euclidean` to `cosine`, `hamming`, etc:
+The distance metric can be changed from the default `euclidean` to any supported by [`scipy.spatial.distance.cdist`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.cdist.html), eg, `cosine`, `hamming`, etc:
 
 ```python
 closely.solve(X, metric='cosine`)
