@@ -32,6 +32,13 @@ pairs, distances = closely.solve(X, n=1)
 
 You can specify how many pairs you want to identify with `n`.
 
+#### Distance Metric
+
+The distance metric can be changed from the default `euclidean` to `cosine`, `hamming`, etc:
+
+```python
+closely.solve(X, metric='cosine`)
+```
 
 ### Example
 ```python
